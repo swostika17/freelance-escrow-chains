@@ -168,6 +168,10 @@ mod runtime {
 	/// A minimal pallet template.
 	#[runtime::pallet_index(5)]
 	pub type Template = pallet_minimal_template::Pallet<Runtime>;
+
+	/// Escrow pallet.
+	#[runtime::pallet_index(6)]
+	pub type Escrow = pallet_escrow::Pallet<Runtime>;
 }
 
 parameter_types! {
@@ -193,7 +197,7 @@ impl pallet_balances::Config for Runtime {
 #[derive_impl(pallet_sudo::config_preludes::TestDefaultConfig)]
 impl pallet_sudo::Config for Runtime {}
 
-// Implements the types required for the sudo pallet.
+// Implements the types required for the timestamp pallet.
 #[derive_impl(pallet_timestamp::config_preludes::TestDefaultConfig)]
 impl pallet_timestamp::Config for Runtime {}
 
@@ -209,6 +213,11 @@ impl pallet_transaction_payment::Config for Runtime {
 
 // Implements the types required for the template pallet.
 impl pallet_minimal_template::Config for Runtime {}
+
+// Implements the types required for the escrow pallet.
+impl pallet_escrow::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+}
 
 type Block = frame::runtime::types_common::BlockOf<Runtime, TxExtension>;
 type Header = HeaderFor<Runtime>;
@@ -230,6 +239,7 @@ impl_runtime_apis! {
 			RuntimeExecutive::initialize_block(header)
 		}
 	}
+
 	impl apis::Metadata<Block> for Runtime {
 		fn metadata() -> OpaqueMetadata {
 			OpaqueMetadata::new(Runtime::metadata().into())
@@ -306,12 +316,15 @@ impl_runtime_apis! {
 		fn query_info(uxt: ExtrinsicFor<Runtime>, len: u32) -> RuntimeDispatchInfo<interface::Balance> {
 			TransactionPayment::query_info(uxt, len)
 		}
+
 		fn query_fee_details(uxt: ExtrinsicFor<Runtime>, len: u32) -> FeeDetails<interface::Balance> {
 			TransactionPayment::query_fee_details(uxt, len)
 		}
+
 		fn query_weight_to_fee(weight: Weight) -> interface::Balance {
 			TransactionPayment::weight_to_fee(weight)
 		}
+
 		fn query_length_to_fee(length: u32) -> interface::Balance {
 			TransactionPayment::length_to_fee(length)
 		}

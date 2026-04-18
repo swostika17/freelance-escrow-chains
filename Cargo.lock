@@ -7620,6 +7620,7 @@ dependencies = [
 name = "minimal-template-runtime"
 version = "0.1.0"
 dependencies = [
+ "pallet-escrow",
  "pallet-minimal-template",
  "parity-scale-codec",
  "polkadot-sdk",
@@ -9185,6 +9186,15 @@ dependencies = [
  "sp-npos-elections",
  "sp-runtime",
  "sp-staking",
+]
+
+[[package]]
+name = "pallet-escrow"
+version = "0.1.0"
+dependencies = [
+ "parity-scale-codec",
+ "polkadot-sdk-frame",
+ "scale-info",
 ]
 
 [[package]]

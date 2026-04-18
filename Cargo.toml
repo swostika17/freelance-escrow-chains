@@ -9,14 +9,13 @@ edition = "2021"
 members = [
     "node",
     "pallets/template",
+    "pallets/escrow",   # ✅ ADDED
     "runtime",
 ]
 resolver = "2"
 
-
 [workspace.lints.rust]
 suspicious_double_ref_op = { level = "allow", priority = 2 }
-# `substrate_runtime` is a common `cfg` condition name used in the repo.
 unexpected_cfgs = { level = "warn", check-cfg = [
 	'cfg(build_opt_level, values("3"))',
 	'cfg(build_profile, values("debug", "release"))',
@@ -28,33 +27,35 @@ unexpected_cfgs = { level = "warn", check-cfg = [
 
 [workspace.lints.clippy]
 all = { level = "allow", priority = 0 }
-bind_instead_of_map = { level = "allow", priority = 2 }              # stylistic
-borrowed-box = { level = "allow", priority = 2 }                     # Reasonable to fix this one
+bind_instead_of_map = { level = "allow", priority = 2 }
+borrowed-box = { level = "allow", priority = 2 }
 complexity = { level = "warn", priority = 1 }
 correctness = { level = "warn", priority = 1 }
-default_constructed_unit_structs = { level = "allow", priority = 2 } # stylistic
-derivable_impls = { level = "allow", priority = 2 }                  # false positives
-eq_op = { level = "allow", priority = 2 }                            # In tests we test equality.
-erasing_op = { level = "allow", priority = 2 }                       # E.g. 0 * DOLLARS
-extra-unused-type-parameters = { level = "allow", priority = 2 }     # stylistic
-identity-op = { level = "allow", priority = 2 }                      # One case where we do 0 +
+default_constructed_unit_structs = { level = "allow", priority = 2 }
+derivable_impls = { level = "allow", priority = 2 }
+eq_op = { level = "allow", priority = 2 }
+erasing_op = { level = "allow", priority = 2 }
+extra-unused-type-parameters = { level = "allow", priority = 2 }
+identity-op = { level = "allow", priority = 2 }
 if-same-then-else = { level = "allow", priority = 2 }
-needless-lifetimes = { level = "allow", priority = 2 }               # generated code
-needless_option_as_deref = { level = "allow", priority = 2 }         # false positives
-nonminimal-bool = { level = "allow", priority = 2 }                  # maybe
-option-map-unit-fn = { level = "allow", priority = 2 }               # stylistic
-stable_sort_primitive = { level = "allow", priority = 2 }            # prefer stable sort
-too-many-arguments = { level = "allow", priority = 2 }               # (Turning this on would lead to)
-type_complexity = { level = "allow", priority = 2 }                  # raison d'etre
-unit_arg = { level = "allow", priority = 2 }                         # stylistic
-unnecessary_cast = { level = "allow", priority = 2 }                 # Types may change
-useless_conversion = { level = "allow", priority = 2 }               # Types may change
-while_immutable_condition = { level = "allow", priority = 2 }        # false positives
-zero-prefixed-literal = { level = "allow", priority = 2 }            # 00_1000_000
+needless-lifetimes = { level = "allow", priority = 2 }
+needless_option_as_deref = { level = "allow", priority = 2 }
+nonminimal-bool = { level = "allow", priority = 2 }
+option-map-unit-fn = { level = "allow", priority = 2 }
+stable_sort_primitive = { level = "allow", priority = 2 }
+too-many-arguments = { level = "allow", priority = 2 }
+type_complexity = { level = "allow", priority = 2 }
+unit_arg = { level = "allow", priority = 2 }
+unnecessary_cast = { level = "allow", priority = 2 }
+useless_conversion = { level = "allow", priority = 2 }
+while_immutable_condition = { level = "allow", priority = 2 }
+zero-prefixed-literal = { level = "allow", priority = 2 }
 
 [workspace.dependencies]
 minimal-template-runtime = { path = "./runtime", default-features = false }
 pallet-minimal-template = { path = "./pallets/template", default-features = false }
+pallet-escrow = { path = "./pallets/escrow", default-features = false }  # ✅ ADDED
+
 clap = { version = "4.5.13" }
 docify = { version = "0.2.9" }
 futures = { version = "0.3.31" }
@@ -73,4 +74,3 @@ panic = "unwind"
 codegen-units = 1
 inherits = "release"
 lto = true
-
